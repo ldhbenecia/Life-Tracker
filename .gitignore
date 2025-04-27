@@ -41,3 +41,6 @@ out/
 
 ### OS
 DS_STORE
+
+### env
+src/main/resources/application.yml
