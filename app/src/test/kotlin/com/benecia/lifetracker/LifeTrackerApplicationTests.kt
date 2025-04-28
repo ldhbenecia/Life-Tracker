@@ -1,4 +1,4 @@
-package com.benecia.life_tracker
+package com.benecia.lifetracker
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
