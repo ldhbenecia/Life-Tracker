@@ -3,8 +3,6 @@ plugins {
     kotlin("plugin.spring")
 }
 
-val springBootVersion: String by project
-
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-web")
 }

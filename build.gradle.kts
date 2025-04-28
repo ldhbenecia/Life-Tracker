@@ -28,11 +28,17 @@ subprojects {
 	apply(plugin = "org.jetbrains.kotlin.plugin.spring")
 	apply(plugin = "io.spring.dependency-management")
 
+	the<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension>().apply {
+		imports {
+			mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+		}
+	}
+
 	dependencies {
-		implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.0")
+		implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 		implementation("org.jetbrains.kotlin:kotlin-reflect")
 		implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-		testImplementation("org.springframework.boot:spring-boot-starter-test:3.4.5")
+		testImplementation("org.springframework.boot:spring-boot-starter-test")
 	}
 
 	tasks.withType<Test> {
