@@ -10,6 +10,7 @@ dependencies {
     implementation(project(":todo"))
     implementation(project(":accountbook"))
     implementation(project(":note"))
+    implementation(project(":user"))
 
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")

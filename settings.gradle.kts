@@ -6,6 +6,7 @@ include(
     "accountbook",
     "note",
     "common",
+    "user",
 )
 
 pluginManagement {
