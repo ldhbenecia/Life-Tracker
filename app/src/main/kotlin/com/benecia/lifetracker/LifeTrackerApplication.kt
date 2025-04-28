@@ -1,4 +1,4 @@
-package com.benecia.life_tracker
+package com.benecia.lifetracker
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
