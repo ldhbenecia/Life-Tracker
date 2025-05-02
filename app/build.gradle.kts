@@ -7,10 +7,12 @@ plugins {
 
 dependencies {
     implementation(project(":common"))
-    implementation(project(":todo"))
-    implementation(project(":accountbook"))
-    implementation(project(":note"))
-    implementation(project(":user"))
+
+    implementation(project(":api:user-api"))
+    implementation(project(":core:user-core"))
+
+    implementation(project(":api:todo-api"))
+    implementation(project(":core:todo-core"))
 
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")

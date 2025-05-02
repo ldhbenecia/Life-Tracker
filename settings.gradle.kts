@@ -2,12 +2,13 @@ rootProject.name = "life-tracker"
 
 include(
     "app",
-    "todo",
-    "accountbook",
-    "note",
     "common",
-    "user",
+    "api:user-api",
+    "core:user-core",
+    "api:todo-api",
+    "core:todo-core",
 )
+
 
 pluginManagement {
     val kotlinVersion: String by settings
