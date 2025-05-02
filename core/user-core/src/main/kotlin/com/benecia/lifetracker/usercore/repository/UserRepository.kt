@@ -1,7 +1,7 @@
-package com.benecia.lifetracker.user.repository
+package com.benecia.lifetracker.usercore.repository
 
-import com.benecia.lifetracker.user.domain.User
-import java.util.UUID
+import com.benecia.lifetracker.usercore.domain.User
+import java.util.*
 
 interface UserRepository {
 

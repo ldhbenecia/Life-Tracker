@@ -1,6 +1,6 @@
-package com.benecia.lifetracker.user.repository
+package com.benecia.lifetracker.usercore.repository
 
-import com.benecia.lifetracker.user.domain.User
+import com.benecia.lifetracker.usercore.domain.User
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.stereotype.Repository
