@@ -1,8 +1,8 @@
-package com.benecia.lifetracker.todo.controller
+package com.benecia.lifetracker.todoapi.controller
 
-import com.benecia.lifetracker.todo.dto.TodoRequest
-import com.benecia.lifetracker.todo.dto.TodoResponse
-import com.benecia.lifetracker.todo.service.TodoService
+import com.benecia.lifetracker.todoapi.dto.TodoRequest
+import com.benecia.lifetracker.todoapi.dto.TodoResponse
+import com.benecia.lifetracker.todocore.service.TodoService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -22,26 +22,27 @@ class TodoController(private val todoService: TodoService) {
 
     @PostMapping
     fun createTodo(@RequestBody request: TodoRequest): ResponseEntity<TodoResponse> {
-        val response = todoService.createTodo(request)
-        return ResponseEntity.status(HttpStatus.CREATED).body(response)
+        val todo = request.toEntity()
+        val saved = todoService.createTodo(todo)
+        return ResponseEntity.status(HttpStatus.CREATED).body(TodoResponse.fromEntity(saved))
     }
 
     @GetMapping("/{id}")
     fun getTodoById(@PathVariable id: UUID): ResponseEntity<TodoResponse> {
-        val response = todoService.getTodoById(id)
-        return ResponseEntity.ok(response)
+        val todo = todoService.getTodoById(id)
+        return ResponseEntity.ok(TodoResponse.fromEntity(todo))
     }
 
     @GetMapping
     fun getAllTodos(): ResponseEntity<List<TodoResponse>> {
-        val responses = todoService.getAllTodos()
-        return ResponseEntity.ok(responses)
+        val todos = todoService.getAllTodos()
+        return ResponseEntity.ok(todos.map { TodoResponse.fromEntity(it) })
     }
 
     @GetMapping("/user/{userId}")
     fun getTodosByUserId(@PathVariable userId: UUID): ResponseEntity<List<TodoResponse>> {
-        val responses = todoService.getTodosByUserId(userId)
-        return ResponseEntity.ok(responses)
+        val todos = todoService.getTodosByUserId(userId)
+        return ResponseEntity.ok(todos.map { TodoResponse.fromEntity(it) })
     }
 
     @PutMapping("/{id}")
@@ -49,14 +50,15 @@ class TodoController(private val todoService: TodoService) {
         @PathVariable id: UUID,
         @RequestBody request: TodoRequest
     ): ResponseEntity<TodoResponse> {
-        val response = todoService.updateTodo(id, request)
-        return ResponseEntity.ok(response)
+        val todo = request.toEntity().apply { this.id = id }
+        val updated = todoService.updateTodo(todo)
+        return ResponseEntity.ok(TodoResponse.fromEntity(updated))
     }
 
     @PatchMapping("/{id}/toggle-done")
     fun toggleTodoDone(@PathVariable id: UUID): ResponseEntity<TodoResponse> {
-        val response = todoService.toggleTodoDone(id)
-        return ResponseEntity.ok(response)
+        val updated = todoService.toggleTodoDone(id)
+        return ResponseEntity.ok(TodoResponse.fromEntity(updated))
     }
 
     @DeleteMapping("/{id}")

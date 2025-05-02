@@ -1,6 +1,6 @@
-package com.benecia.lifetracker.todo.repository
+package com.benecia.lifetracker.todocore.repository
 
-import com.benecia.lifetracker.todo.domain.Todo
+import com.benecia.lifetracker.todocore.domain.Todo
 import org.slf4j.LoggerFactory
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper

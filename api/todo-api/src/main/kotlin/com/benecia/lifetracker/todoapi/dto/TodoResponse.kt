@@ -1,6 +1,6 @@
-package com.benecia.lifetracker.todo.dto
+package com.benecia.lifetracker.todoapi.dto
 
-import com.benecia.lifetracker.todo.domain.Todo
+import com.benecia.lifetracker.todocore.domain.Todo
 import java.time.LocalDateTime
 import java.util.UUID
 

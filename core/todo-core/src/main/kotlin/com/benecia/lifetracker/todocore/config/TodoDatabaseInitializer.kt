@@ -1,4 +1,4 @@
-package com.benecia.lifetracker.todo.config
+package com.benecia.lifetracker.todocore.config
 
 import com.benecia.lifetracker.common.util.DatabaseUtils
 import org.slf4j.LoggerFactory
