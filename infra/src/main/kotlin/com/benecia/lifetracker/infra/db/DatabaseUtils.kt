@@ -1,4 +1,4 @@
-package com.benecia.lifetracker.common.util
+package com.benecia.lifetracker.infra.db
 
 import org.springframework.jdbc.core.JdbcTemplate
 

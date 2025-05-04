@@ -1,6 +1,5 @@
-package com.benecia.lifetracker.todocore.config
+package com.benecia.lifetracker.infra.db
 
-import com.benecia.lifetracker.common.util.DatabaseUtils
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.context.annotation.Bean
