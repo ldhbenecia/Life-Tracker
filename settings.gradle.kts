@@ -3,6 +3,7 @@ rootProject.name = "life-tracker"
 include(
     "app",
     "common",
+    "infra",
     "api:user-api",
     "core:user-core",
     "api:todo-api",
