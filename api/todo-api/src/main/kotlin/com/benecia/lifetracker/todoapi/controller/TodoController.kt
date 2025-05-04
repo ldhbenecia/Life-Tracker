@@ -3,6 +3,7 @@ package com.benecia.lifetracker.todoapi.controller
 import com.benecia.lifetracker.common.response.ApiResponse
 import com.benecia.lifetracker.todoapi.dto.TodoRequest
 import com.benecia.lifetracker.todoapi.dto.TodoResponse
+import com.benecia.lifetracker.todoapi.dto.TodoStatisticsResponse
 import com.benecia.lifetracker.todocore.service.TodoService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
@@ -65,5 +66,13 @@ class TodoController(private val todoService: TodoService) {
             ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(ApiResponse(404, "Todo not found"))
         }
+    }
+
+    @GetMapping("/users/{userId}/statistics")
+    fun getTodoStatistics(@PathVariable userId: UUID): ResponseEntity<ApiResponse<TodoStatisticsResponse>> {
+        val (totalCount, doneCount) = todoService.getStatisticsByUser(userId)
+        val completionRate = if (totalCount > 0) doneCount.toDouble() / totalCount else 0.0
+        val response = TodoStatisticsResponse(totalCount, doneCount, completionRate)
+        return ResponseEntity.ok(ApiResponse(200, "Statistics fetched", response))
     }
 }

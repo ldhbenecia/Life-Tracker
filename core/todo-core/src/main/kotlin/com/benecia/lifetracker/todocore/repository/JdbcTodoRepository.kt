@@ -4,6 +4,7 @@ import com.benecia.lifetracker.todocore.domain.Todo
 import org.slf4j.LoggerFactory
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
+import org.springframework.jdbc.core.queryForObject
 import org.springframework.stereotype.Repository
 import java.sql.ResultSet
 import java.sql.Timestamp
@@ -125,5 +126,15 @@ class JdbcTodoRepository(private val jdbcTemplate: JdbcTemplate): TodoRepository
         val sql = "DELETE FROM todos WHERE id = ?"
         val rowsAffected = jdbcTemplate.update(sql, id)
         return rowsAffected > 0
+    }
+
+    override fun countAllByUserId(userId: UUID): Int {
+        val sql = "SELECT COUNT(*) FROM todos WHERE user_id = ?"
+        return jdbcTemplate.queryForObject(sql, Int::class.java, userId) ?: 0
+    }
+
+    override fun countDoneByUserId(userId: UUID): Int {
+        val sql = "SELECT COUNT(*) FROM todos WHERE user_id = ? AND is_done = true"
+        return jdbcTemplate.queryForObject(sql, Int::class.java, userId) ?: 0
     }
 }

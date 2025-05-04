@@ -53,4 +53,12 @@ class TodoService(
         todoRepository.findById(id) ?: throw CustomException(ErrorCode.TODO_NOT_FOUND)
         return todoRepository.deleteById(id)
     }
+
+    fun getStatisticsByUser(userId: UUID): Pair<Int, Int> {
+        userValidationService.validateUserExists(userId)
+
+        val totalCount = todoRepository.countAllByUserId(userId)
+        val doneCount = todoRepository.countDoneByUserId(userId)
+        return Pair(totalCount, doneCount)
+    }
 }

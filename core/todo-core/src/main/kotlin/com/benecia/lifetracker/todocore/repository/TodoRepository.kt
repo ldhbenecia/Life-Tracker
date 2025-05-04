@@ -11,4 +11,6 @@ interface TodoRepository {
     fun update(todo: Todo): Todo
     fun toggleDone(id: UUID): Todo?
     fun deleteById(id: UUID): Boolean
+    fun countAllByUserId(userId: UUID): Int
+    fun countDoneByUserId(userId: UUID): Int
 }
