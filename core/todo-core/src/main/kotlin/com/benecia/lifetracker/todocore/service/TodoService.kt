@@ -2,9 +2,9 @@ package com.benecia.lifetracker.todocore.service
 
 import com.benecia.lifetracker.common.exception.CustomException
 import com.benecia.lifetracker.common.exception.ErrorCode
-import com.benecia.lifetracker.common.service.UserValidationService
 import com.benecia.lifetracker.todocore.domain.Todo
 import com.benecia.lifetracker.todocore.repository.TodoRepository
+import com.benecia.lifetracker.usercore.service.UserValidationService
 import org.springframework.stereotype.Service
 import java.util.*
 

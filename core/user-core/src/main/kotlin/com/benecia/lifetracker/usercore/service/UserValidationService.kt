@@ -1,4 +1,4 @@
-package com.benecia.lifetracker.common.service
+package com.benecia.lifetracker.usercore.service
 
 import java.util.UUID
 
