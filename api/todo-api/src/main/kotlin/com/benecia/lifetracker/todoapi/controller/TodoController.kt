@@ -4,6 +4,7 @@ import com.benecia.lifetracker.common.response.ApiResponse
 import com.benecia.lifetracker.todoapi.dto.TodoRequest
 import com.benecia.lifetracker.todoapi.dto.TodoResponse
 import com.benecia.lifetracker.todocore.service.TodoService
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -14,7 +15,7 @@ import java.util.*
 class TodoController(private val todoService: TodoService) {
 
     @PostMapping
-    fun createTodo(@RequestBody request: TodoRequest): ResponseEntity<ApiResponse<TodoResponse>> {
+    fun createTodo(@RequestBody @Valid request: TodoRequest): ResponseEntity<ApiResponse<TodoResponse>> {
         val todo = request.toEntity()
         val saved = todoService.createTodo(todo)
         return ResponseEntity.status(HttpStatus.CREATED)

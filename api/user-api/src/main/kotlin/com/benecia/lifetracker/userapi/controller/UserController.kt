@@ -4,6 +4,7 @@ import com.benecia.lifetracker.common.response.ApiResponse
 import com.benecia.lifetracker.userapi.dto.UserRequest
 import com.benecia.lifetracker.userapi.dto.UserResponse
 import com.benecia.lifetracker.usercore.service.UserService
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -14,7 +15,7 @@ import java.util.*
 class UserController(private val userService: UserService) {
 
     @PostMapping
-    fun createUser(@RequestBody userRequest: UserRequest): ResponseEntity<ApiResponse<UserResponse>> {
+    fun createUser(@RequestBody @Valid userRequest: UserRequest): ResponseEntity<ApiResponse<UserResponse>> {
         val user = userRequest.toEntity()
         val savedUser = userService.createUser(user)
         return ResponseEntity.status(HttpStatus.CREATED)
