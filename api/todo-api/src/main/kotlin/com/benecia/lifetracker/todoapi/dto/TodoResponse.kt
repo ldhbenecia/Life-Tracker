@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 data class TodoResponse(
-    val id: UUID?,
+    val id: UUID,
     val userId: UUID,
     val title: String,
     val description: String,
@@ -15,7 +15,7 @@ data class TodoResponse(
 ) {
     companion object {
         fun fromEntity(todo: Todo): TodoResponse = TodoResponse(
-            id = todo.id,
+            id = requireNotNull(todo.id),
             userId = todo.userId,
             title = todo.title,
             description = todo.description,

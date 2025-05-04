@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 import java.util.*
 
 data class UserResponse(
-    val id: UUID?,
+    val id: UUID,
     val username: String,
     val email: String,
     val createdAt: LocalDateTime,
@@ -15,7 +15,7 @@ data class UserResponse(
     // fromEntity 메서드는 User 엔티티를 UserResponse DTO로 변환하는 역할
     companion object {
         fun fromEntity(user: User): UserResponse = UserResponse(
-            id = user.id,
+            id = requireNotNull(user.id),
             username = user.username,
             email = user.email,
             createdAt = user.createdAt,
