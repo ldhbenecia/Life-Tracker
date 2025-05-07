@@ -1,10 +1,10 @@
 package com.benecia.lifetracker.todocore.repository
 
 import com.benecia.lifetracker.todocore.domain.Todo
+import com.benecia.lifetracker.todocore.model.DailyTodoStats
 import org.slf4j.LoggerFactory
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
-import org.springframework.jdbc.core.queryForObject
 import org.springframework.stereotype.Repository
 import java.sql.ResultSet
 import java.sql.Timestamp
@@ -136,5 +136,22 @@ class JdbcTodoRepository(private val jdbcTemplate: JdbcTemplate): TodoRepository
     override fun countDoneByUserId(userId: UUID): Int {
         val sql = "SELECT COUNT(*) FROM todos WHERE user_id = ? AND is_done = true"
         return jdbcTemplate.queryForObject(sql, Int::class.java, userId) ?: 0
+    }
+
+    override fun findDoneCountGroupedByDate(userId: UUID): List<DailyTodoStats> {
+        val sql = """
+        SELECT DATE(scheduled_time) as day, COUNT(*) as done_count
+        FROM todos
+        WHERE user_id = ? AND is_done = true AND scheduled_time >= NOW() - INTERVAL '7 days'
+        GROUP BY day
+        ORDER BY day
+    """.trimIndent()
+
+        return jdbcTemplate.query(sql, { rs, _ ->
+            DailyTodoStats(
+                date = rs.getDate("day").toLocalDate(),
+                doneCount = rs.getInt("done_count")
+            )
+        }, userId)
     }
 }

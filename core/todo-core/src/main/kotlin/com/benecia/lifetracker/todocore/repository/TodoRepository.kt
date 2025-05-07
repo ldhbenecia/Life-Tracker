@@ -1,7 +1,8 @@
 package com.benecia.lifetracker.todocore.repository
 
 import com.benecia.lifetracker.todocore.domain.Todo
-import java.util.UUID
+import com.benecia.lifetracker.todocore.model.DailyTodoStats
+import java.util.*
 
 interface TodoRepository {
     fun save(todo: Todo): Todo
@@ -13,4 +14,5 @@ interface TodoRepository {
     fun deleteById(id: UUID): Boolean
     fun countAllByUserId(userId: UUID): Int
     fun countDoneByUserId(userId: UUID): Int
+    fun findDoneCountGroupedByDate(userId: UUID): List<DailyTodoStats>
 }

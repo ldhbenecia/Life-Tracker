@@ -4,7 +4,9 @@ import com.benecia.lifetracker.common.response.ApiResponse
 import com.benecia.lifetracker.todoapi.dto.TodoRequest
 import com.benecia.lifetracker.todoapi.dto.TodoResponse
 import com.benecia.lifetracker.todoapi.dto.TodoStatisticsResponse
+import com.benecia.lifetracker.todocore.model.DailyTodoStats
 import com.benecia.lifetracker.todocore.service.TodoService
+import com.benecia.lifetracker.todocore.service.TodoStatisticsService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -13,7 +15,10 @@ import java.util.*
 
 @RestController
 @RequestMapping("/api/v1/todos")
-class TodoController(private val todoService: TodoService) {
+class TodoController(
+    private val todoService: TodoService,
+    private val todoStatisticsService: TodoStatisticsService
+) {
 
     @PostMapping
     fun createTodo(@RequestBody @Valid request: TodoRequest): ResponseEntity<ApiResponse<TodoResponse>> {
@@ -75,4 +80,11 @@ class TodoController(private val todoService: TodoService) {
         val response = TodoStatisticsResponse(totalCount, doneCount, completionRate)
         return ResponseEntity.ok(ApiResponse(200, "Statistics fetched", response))
     }
+
+    @GetMapping("/users/{userId}/statistics/last-7-days")
+    fun getLast7DaysStats(@PathVariable userId: UUID): ResponseEntity<ApiResponse<List<DailyTodoStats>>> {
+        val stats = todoStatisticsService.getLast7DaysDoneStats(userId)
+        return ResponseEntity.ok(ApiResponse(200, data = stats))
+    }
+
 }
