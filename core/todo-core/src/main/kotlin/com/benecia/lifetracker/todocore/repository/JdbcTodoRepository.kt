@@ -154,4 +154,14 @@ class JdbcTodoRepository(private val jdbcTemplate: JdbcTemplate): TodoRepository
             )
         }, userId)
     }
+
+    override fun findTodosToRemind(now: LocalDateTime): List<Todo> {
+        val sql = """
+            SELECT * FROM todos
+            WHERE scheduled_time <= ? AND is_done = false
+            ORDER BY scheduled_time
+        """.trimIndent()
+
+        return jdbcTemplate.query(sql, todoRowMapper, Timestamp.valueOf(now))
+    }
 }
