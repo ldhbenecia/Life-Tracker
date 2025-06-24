@@ -43,4 +43,4 @@ out/
 /.DS_Store
 
 ### env
-/app/src/main/resources/application.yml
+**/application.yml
