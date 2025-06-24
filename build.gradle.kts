@@ -1,8 +1,9 @@
 plugins {
 	kotlin("jvm")
 	kotlin("plugin.spring") apply false
+	kotlin("plugin.jpa") version "1.9.25" apply false
 	id("org.springframework.boot") apply false
-	id("io.spring.dependency-management")
+	id("io.spring.dependency-management") apply false
 }
 
 java {
@@ -26,19 +27,29 @@ allprojects {
 subprojects {
 	apply(plugin = "org.jetbrains.kotlin.jvm")
 	apply(plugin = "org.jetbrains.kotlin.plugin.spring")
+	apply(plugin = "org.jetbrains.kotlin.plugin.jpa")
+	apply(plugin = "org.springframework.boot")
 	apply(plugin = "io.spring.dependency-management")
 
-	the<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension>().apply {
-		imports {
-			mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
-		}
+	dependencies {
+		implementation("org.jetbrains.kotlin:kotlin-reflect")
+		testImplementation("org.springframework.boot:spring-boot-starter-test")
+		testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+		testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	}
 
-	dependencies {
-		implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-		implementation("org.jetbrains.kotlin:kotlin-reflect")
-		implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-		testImplementation("org.springframework.boot:spring-boot-starter-test")
+	tasks.getByName("bootJar") {
+		enabled = false
+	}
+
+	tasks.getByName("jar") {
+		enabled = true
+	}
+
+	kotlin {
+		compilerOptions {
+			freeCompilerArgs.addAll("-Xjsr305=strict")
+		}
 	}
 
 	tasks.withType<Test> {
