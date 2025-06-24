@@ -1,3 +1,5 @@
 package com.benecia.lifetracker.common.exception
 
-class CustomException(val errorCode: ErrorCode) : RuntimeException()
+open class CustomException(
+    val errorCode: ErrorCode
+) : RuntimeException(errorCode.message)
