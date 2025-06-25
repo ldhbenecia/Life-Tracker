@@ -7,6 +7,7 @@ enum class UserErrorCode(
     override val message: String,
 ) : ErrorCode {
     USER_NOT_FOUND(404, "해당 ID의 사용자를 찾을 수 없습니다."),
-
-    // ErrorCode 인터페이스의 name 프로퍼티는 enum 클래스에 자동으로 구현됩니다.
+    INVALID_ACCESS_TOKEN(401, "유효하지 않은 액세스 토큰입니다."),
+    EXPIRED_ACCESS_TOKEN(401, "만료된 액세스 토큰입니다."),
+    FORBIDDEN_USER_ACCESS(403, "해당 리소스에 접근할 권한이 없습니다.");
 }
