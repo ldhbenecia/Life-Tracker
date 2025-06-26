@@ -1,4 +1,4 @@
-package com.benecia.lifetracker.usercore.exception
+package com.benecia.lifetracker.user.exception
 
 import com.benecia.lifetracker.common.exception.CustomException
 
