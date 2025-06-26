@@ -7,16 +7,18 @@ import jakarta.persistence.MappedSuperclass
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 @MappedSuperclass
-abstract class BaseEntity {
+internal abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0
+    val id: Long? = null
 
     @CreationTimestamp
-    val createdAt: LocalDateTime = LocalDateTime.MIN
+    val createdAt: ZonedDateTime? = null
 
     @UpdateTimestamp
-    val updatedAt: LocalDateTime = LocalDateTime.MIN
+    var updatedAt: ZonedDateTime? = null
+        protected set
 }
