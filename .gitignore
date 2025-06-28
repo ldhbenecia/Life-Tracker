@@ -44,3 +44,4 @@ out/
 
 ### env
 **/application.yml
+.env
