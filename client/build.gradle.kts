@@ -10,6 +10,7 @@ dependencies {
 
     implementation(project(":core:user-core"))
     implementation(project(":core:todo-core"))
+    implementation(project(":storage:db-core"))
 
     implementation("org.springframework.boot:spring-boot-starter-web")
 }
