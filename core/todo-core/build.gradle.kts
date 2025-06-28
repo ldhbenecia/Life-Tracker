@@ -5,6 +5,6 @@ plugins {
 
 dependencies {
     implementation(project(":common"))
-    implementation(project(":storage:db-core"))
     implementation(project(":core:user-core"))
+    compileOnly("org.springframework:spring-context")
 }
