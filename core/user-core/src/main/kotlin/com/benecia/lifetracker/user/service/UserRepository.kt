@@ -1,6 +1,8 @@
 package com.benecia.lifetracker.user.service
 
+import java.util.UUID
+
 interface UserRepository {
-    fun add(name: String): Long
-    fun read(id: Long): User?
+    fun add(user: User): UUID
+    fun read(id: UUID): User?
 }
