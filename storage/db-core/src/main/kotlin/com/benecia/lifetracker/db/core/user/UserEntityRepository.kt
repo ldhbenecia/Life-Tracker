@@ -16,7 +16,9 @@ class UserEntityRepository(
             provider = user.provider,
             email = user.email,
             displayName = user.displayName,
-            profileImageUrl = user.profileImageUrl
+            profileImageUrl = user.profileImageUrl,
+            accessToken = user.accessToken,
+            refreshToken = user.refreshToken,
         )
         return userJpaRepository.save(entity).id!!
     }
@@ -28,7 +30,9 @@ class UserEntityRepository(
                 provider = it.provider,
                 email = it.email,
                 displayName = it.displayName,
-                profileImageUrl = it.profileImageUrl
+                profileImageUrl = it.profileImageUrl,
+                accessToken = it.accessToken,
+                refreshToken = it.refreshToken,
             )
         }
     }

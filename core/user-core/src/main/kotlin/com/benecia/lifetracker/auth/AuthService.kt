@@ -44,7 +44,9 @@ class AuthService(
             provider = provider,
             email = userInfoMap["email"] as? String ?: throw CustomException(AuthErrorCode.OAUTH_USER_INFO_FETCH_FAILED),
             displayName = userInfoMap["name"] as? String ?: "Unknown",
-            profileImageUrl = userInfoMap["picture"] as? String
+            profileImageUrl = userInfoMap["picture"] as? String,
+            accessToken = userInfoMap["accessToken"] as? String,
+            refreshToken = userInfoMap["refreshToken"] as? String,
         )
 
         val userId = userService.add(user)

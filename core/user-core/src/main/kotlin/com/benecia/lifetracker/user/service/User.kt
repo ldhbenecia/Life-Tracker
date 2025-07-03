@@ -8,4 +8,6 @@ class User(
     val email: String,
     val displayName: String,
     val profileImageUrl: String?,
+    val accessToken: String?,
+    val refreshToken: String?,
 )
