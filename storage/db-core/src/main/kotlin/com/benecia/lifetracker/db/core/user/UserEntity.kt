@@ -25,10 +25,4 @@ class UserEntity(
     @Column(nullable = false)
     var profileImageUrl: String?,
 
-    @Column(nullable = true)
-    var accessToken: String?,
-
-    @Column(nullable = true)
-    var refreshToken: String?
-
 ) : BaseEntity()
