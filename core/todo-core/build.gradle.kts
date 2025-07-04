@@ -6,5 +6,5 @@ plugins {
 dependencies {
     implementation(project(":common"))
     implementation(project(":core:user-core"))
-    compileOnly("org.springframework:spring-context")
+    implementation("org.springframework.boot:spring-boot-starter-web")
 }
