@@ -1,11 +1,12 @@
 rootProject.name = "life-tracker"
 
 include(
-    "client",
+    "api",
     "common",
     "storage:db-core",
     "core:user-core",
     "core:todo-core",
+    "support:monitoring",
 )
 
 pluginManagement {
