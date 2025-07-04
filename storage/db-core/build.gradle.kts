@@ -5,6 +5,7 @@ allOpen {
 }
 
 dependencies {
+    implementation(project(":common"))
     compileOnly(project(":core:user-core"))
     compileOnly(project(":core:todo-core"))
 
