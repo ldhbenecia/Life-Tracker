@@ -6,6 +6,7 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":support:monitoring"))
     implementation(project(":common"))
 
     implementation(project(":core:user-core"))
