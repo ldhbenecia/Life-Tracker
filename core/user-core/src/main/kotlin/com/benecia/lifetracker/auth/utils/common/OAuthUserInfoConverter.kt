@@ -1,15 +1,9 @@
 package com.benecia.lifetracker.auth.utils.common
 
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
-import org.springframework.web.client.RestClient
 
 @Component
-class OAuthUserInfoConverter(
-    private val restClient: RestClient
-) {
-
-    private val logger = LoggerFactory.getLogger(OAuthUserInfoConverter::class.java)
+class OAuthUserInfoConverter() {
 
     /**
      * Google 사용자 정보는 그대로 반환 (표준 형식)
@@ -30,7 +24,6 @@ class OAuthUserInfoConverter(
             "refresh_token" to (tokenInfo["refresh_token"] ?: ""),
             "expires_in" to (tokenInfo["expires_in"] ?: 3600),
             "token_type" to (tokenInfo["token_type"] ?: "Bearer"),
-            "scope" to (tokenInfo["scope"] ?: "")
         )
     }
 
