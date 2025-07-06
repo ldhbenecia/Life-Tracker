@@ -13,7 +13,15 @@ class UserService(
         return userWriter.add(user)
     }
 
-    fun read(id: UUID): User {
-        return userReader.read(id)
+    fun findById(id: UUID): User? {
+        return userReader.findById(id)
+    }
+
+    fun findByProviderAndEmail(provider: String, email: String): User? {
+        return userReader.findByProviderAndEmail(provider, email)
+    }
+
+    fun update(user: User) {
+        userWriter.update(user)
     }
 }

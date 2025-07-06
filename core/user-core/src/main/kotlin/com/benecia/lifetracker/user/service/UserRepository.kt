@@ -6,5 +6,7 @@ import java.util.UUID
 @Repository
 interface UserRepository {
     fun add(user: User): UUID
-    fun read(id: UUID): User
+    fun update(user: User): User
+    fun findById(id: UUID): User?
+    fun findByProviderAndEmail(provider: String, email: String): User?
 }

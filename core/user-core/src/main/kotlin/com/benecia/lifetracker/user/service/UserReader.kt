@@ -7,7 +7,11 @@ import java.util.*
 class UserReader(
     private val userRepository: UserRepository
 ) {
-    fun read(id: UUID): User {
-        return userRepository.read(id)
+    fun findById(id: UUID): User? {
+        return userRepository.findById(id)
+    }
+
+    fun findByProviderAndEmail(provider: String, email: String): User? {
+        return userRepository.findByProviderAndEmail(provider, email)
     }
 }
