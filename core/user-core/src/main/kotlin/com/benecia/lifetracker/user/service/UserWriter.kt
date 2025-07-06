@@ -10,4 +10,8 @@ data class UserWriter(
     fun add(user: User): UUID {
         return userRepository.add(user)
     }
+
+    fun update(user: User): User {
+        return userRepository.update(user)
+    }
 }

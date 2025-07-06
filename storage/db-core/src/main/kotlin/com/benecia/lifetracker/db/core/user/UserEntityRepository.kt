@@ -23,9 +23,24 @@ class UserEntityRepository(
         return userJpaRepository.save(entity).id!!
     }
 
-    override fun read(id: UUID): User {
+    override fun findById(id: UUID): User? {
         val entity = userJpaRepository.findByIdOrNull(id)
             ?: throw CustomException(UserErrorCode.USER_NOT_FOUND)
         return entity.toDomain()
+    }
+
+    override fun findByProviderAndEmail(provider: String, email: String): User? {
+       return userJpaRepository.findByProviderAndEmail(provider, email)?.toDomain()
+    }
+
+    override fun update(user: User): User {
+        val entity = userJpaRepository.findById(user.id ?: throw CustomException(UserErrorCode.USER_NOT_FOUND))
+            .orElseThrow { CustomException(UserErrorCode.USER_NOT_FOUND) }
+
+        entity.displayName = user.displayName
+        entity.profileImageUrl = user.profileImageUrl
+
+        val updatedEntity = userJpaRepository.save(entity)
+        return updatedEntity.toDomain()
     }
 }
