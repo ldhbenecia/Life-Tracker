@@ -1,5 +1,7 @@
-package com.benecia.lifetracker.security
+package com.benecia.lifetracker.security.filter
 
+import com.benecia.lifetracker.util.JwtUtil
+import com.benecia.lifetracker.security.userdetails.LoginUserDetailsService
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse

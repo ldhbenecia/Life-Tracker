@@ -1,4 +1,4 @@
-package com.benecia.lifetracker.security
+package com.benecia.lifetracker.util
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts

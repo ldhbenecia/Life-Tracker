@@ -1,4 +1,4 @@
-package com.benecia.lifetracker.security
+package com.benecia.lifetracker.security.userdetails
 
 import com.benecia.lifetracker.user.service.UserService
 import org.springframework.security.core.userdetails.UserDetails
@@ -13,7 +13,7 @@ class LoginUserDetailsService(
 
     override fun loadUserByUsername(userId: String): UserDetails {
         val uuid = UUID.fromString(userId)
-        val user = userService.read(uuid)
-        return LoginUser.from(user)
+        val user = userService.findById(uuid)
+        return LoginUser.from(user!!)
     }
 }

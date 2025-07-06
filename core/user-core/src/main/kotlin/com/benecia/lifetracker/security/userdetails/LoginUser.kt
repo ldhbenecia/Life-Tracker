@@ -1,4 +1,4 @@
-package com.benecia.lifetracker.security
+package com.benecia.lifetracker.security.userdetails
 
 import com.benecia.lifetracker.user.service.User
 import org.springframework.security.core.GrantedAuthority
