@@ -1,7 +1,7 @@
 package com.benecia.lifetracker.user.service
 
 import org.springframework.stereotype.Component
-import java.util.UUID
+import java.util.*
 
 @Component
 data class UserWriter(

@@ -1,6 +1,7 @@
 package com.benecia.lifetracker.db.core.user
 
 import com.benecia.lifetracker.db.core.BaseEntity
+import com.benecia.lifetracker.user.service.User
 import jakarta.persistence.*
 import java.util.*
 
@@ -25,4 +26,13 @@ class UserEntity(
     @Column(nullable = false)
     var profileImageUrl: String?,
 
-) : BaseEntity()
+) : BaseEntity() {
+
+    fun toDomain(): User = User(
+        id = this.id!!,
+        provider = this.provider,
+        email = this.email,
+        displayName = this.displayName,
+        profileImageUrl = this.profileImageUrl
+    )
+}

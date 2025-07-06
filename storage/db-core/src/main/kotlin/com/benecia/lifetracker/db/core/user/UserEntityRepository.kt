@@ -1,5 +1,7 @@
 package com.benecia.lifetracker.db.core.user
 
+import com.benecia.lifetracker.common.exception.CustomException
+import com.benecia.lifetracker.user.exception.UserErrorCode
 import com.benecia.lifetracker.user.service.User
 import com.benecia.lifetracker.user.service.UserRepository
 import org.springframework.data.repository.findByIdOrNull
@@ -21,15 +23,9 @@ class UserEntityRepository(
         return userJpaRepository.save(entity).id!!
     }
 
-    override fun read(id: UUID): User? {
-        return userJpaRepository.findByIdOrNull(id)?.let {
-            User(
-                id = it.id!!,
-                provider = it.provider,
-                email = it.email,
-                displayName = it.displayName,
-                profileImageUrl = it.profileImageUrl,
-            )
-        }
+    override fun read(id: UUID): User {
+        val entity = userJpaRepository.findByIdOrNull(id)
+            ?: throw CustomException(UserErrorCode.USER_NOT_FOUND)
+        return entity.toDomain()
     }
 }
