@@ -12,7 +12,6 @@ data class TodoReader(
 
         return TodoInfo(
             id = id,
-            userId = todo.userId,
             title = todo.title,
             category = todo.category,
             scheduledDate = todo.scheduledDate,
