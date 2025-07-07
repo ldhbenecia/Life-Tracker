@@ -53,7 +53,6 @@ class OAuth2AuthenticationSuccessHandler(
                 profileImageUrl = userInfo.profileImage
             )
             userService.update(updatedUser)
-            updatedUser
         } else {
             val newUser = User(
                 provider = registrationId,
@@ -61,9 +60,7 @@ class OAuth2AuthenticationSuccessHandler(
                 displayName = userInfo.name,
                 profileImageUrl = userInfo.profileImage
             )
-            val savedId = userService.add(newUser)
-            return userService.findById(savedId)
-                ?: throw IllegalStateException("OAuth2 로그인 직후 저장된 유저를 찾을 수 없습니다. id=$savedId")
+            userService.add(newUser)
         }
     }
 
