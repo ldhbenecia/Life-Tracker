@@ -25,9 +25,17 @@ class TodoEntityRepository(
     }
 
     @Transactional
-    override fun modify(id: Long, todo: Todo) {
+    override fun modify(id: Long, todo: Todo): Todo {
         val entity = todoJpaRepository.findByIdOrNull(id)
             ?: throw CustomException(TodoErrorCode.TODO_NOT_FOUND)
-        entity.modifyWith(todo)
+
+        entity.title = todo.title
+        entity.category = todo.category
+        entity.scheduledDate = todo.scheduledDate
+        entity.notificationTime = todo.notificationTime
+        entity.isDone = todo.isDone
+
+        val savedEntity = todoJpaRepository.save(entity)
+        return savedEntity.toDomain()
     }
 }

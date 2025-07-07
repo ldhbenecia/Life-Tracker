@@ -54,12 +54,4 @@ class TodoEntity(
         notificationTime = this.notificationTime,
         isDone = this.isDone
     )
-
-    fun modifyWith(todo: Todo) {
-        this.title = todo.title
-        this.category = todo.category
-        this.scheduledDate = todo.scheduledDate
-        this.notificationTime = todo.notificationTime
-        this.isDone = todo.isDone
-    }
 }
