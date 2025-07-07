@@ -9,8 +9,9 @@ class UserService(
     private val userWriter: UserWriter,
     private val userReader: UserReader
 ) {
-    fun add(user: User): UUID {
-        return userWriter.add(user)
+    fun add(user: User): User {
+        val userId = userWriter.add(user)
+        return user.copy(id = userId)
     }
 
     fun findById(id: UUID): User? {
@@ -21,7 +22,7 @@ class UserService(
         return userReader.findByProviderAndEmail(provider, email)
     }
 
-    fun update(user: User) {
-        userWriter.update(user)
+    fun update(user: User): User {
+        return userWriter.update(user)
     }
 }
