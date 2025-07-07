@@ -1,36 +1,46 @@
 package com.benecia.lifetracker.domain.todo.api
 
+import com.benecia.lifetracker.common.response.ApiResponse
+import com.benecia.lifetracker.domain.common.CurrentUserProvider
+import com.benecia.lifetracker.domain.todo.dto.ModifyTodoRequest
+import com.benecia.lifetracker.domain.todo.dto.NewTodoRequest
+import com.benecia.lifetracker.domain.todo.dto.TodoResponse
 import com.benecia.lifetracker.todocore.service.TodoService
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/todos")
 class TodoController(
-    private val todoService: TodoService
+    private val todoService: TodoService,
+    private val currentUserProvider: CurrentUserProvider
 ) {
+    @GetMapping("/{id}")
+    fun readTodo(
+        @PathVariable id: Long
+    ): ResponseEntity<ApiResponse<TodoResponse>> {
+        val todoInfo = todoService.readTodoById(id)
+        return ResponseEntity.ok(ApiResponse.success(TodoResponse.from(todoInfo)))
+    }
 
-//    @PostMapping
-//    fun createTodo(
-//        @Valid @RequestBody request: TodoCreateRequest
-//    ): ResponseEntity<ApiResponse<TodoInfo>> {
-//        // Service에 create 명령을 내리고, 성공 결과를 TodoInfo로 받습니다.
-//        val todoInfo = todoService.create(request.toCommand()) // request를 command로 변환
-//
-//        // 성공 결과를 ApiResponse.created() 로 감싸서 반환합니다.
-//        return ResponseEntity
-//            .status(HttpStatus.CREATED)
-//            .body(ApiResponse.created(todoInfo))
-//    }
-//
-//    @GetMapping("/{id}")
-//    fun getTodoById(@PathVariable id: Long): ResponseEntity<ApiResponse<TodoInfo>> {
-//        // Service에 findById 명령을 내립니다.
-//        // Service 내부에서 todo가 없으면 TodoNotFoundException이 발생하고,
-//        // 이 예외는 GlobalExceptionHandler가 자동으로 처리합니다.
-//        val todoInfo = todoService.findById(id)
-//
-//        // 예외가 발생하지 않고 성공했다면, 결과를 ApiResponse.success() 로 감싸서 반환합니다.
-//        return ResponseEntity.ok(ApiResponse.success(todoInfo))
-//    }
+    @PostMapping
+    fun addTodo(
+        @RequestBody request: NewTodoRequest
+    ): ResponseEntity<ApiResponse<Long>> {
+        val command = request.toCommand(currentUserProvider.getCurrentUserId())
+        val todoId = todoService.addTodo(command)
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(todoId))
+    }
+
+    @PutMapping("/{id}")
+    fun modifyTodo(
+        @PathVariable id: Long,
+        @RequestBody request: ModifyTodoRequest
+    ): ResponseEntity<ApiResponse<Long>> {
+        val command = request.toCommand(currentUserProvider.getCurrentUserId())
+        println("todoService = ${command}")
+        todoService.modifyTodo(id, command)
+        return ResponseEntity.ok(ApiResponse.success(id))
+    }
 }
