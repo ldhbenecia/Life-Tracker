@@ -3,6 +3,7 @@ package com.benecia.lifetracker.security
 import com.benecia.lifetracker.security.filter.JwtAuthenticationFilter
 import com.benecia.lifetracker.security.handler.OAuth2AuthenticationFailureHandler
 import com.benecia.lifetracker.security.handler.OAuth2AuthenticationSuccessHandler
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -32,6 +33,7 @@ class SecurityConfig(
                     .requestMatchers("/api/auth/**").permitAll()
                     .requestMatchers("/api/public/**").permitAll()
                     .requestMatchers("/login/oauth2/**").permitAll()
+                    .requestMatchers(EndpointRequest.to("prometheus")).permitAll()
                     .anyRequest().authenticated()
             }
             .oauth2Login { oauth2 ->
