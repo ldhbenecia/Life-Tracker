@@ -1,0 +1,36 @@
+= API Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 3
+:sectlinks:
+:snippets: build/generated-snippets
+
+== Introduce
+
+This is the Core API documentation.
+
+== Todo API
+
+=== Read Todo
+==== HTTP Request
+include::{snippets}/readTodo/http-request.adoc[]
+==== Path Parameters
+include::{snippets}/readTodo/path-parameters.adoc[]
+==== HTTP Response
+include::{snippets}/readTodo/http-response.adoc[]
+==== Response Fields
+include::{snippets}/readTodo/response-fields.adoc[]
+
+'''
+
+=== Add Todo
+==== HTTP Request
+include::{snippets}/addTodo/http-request.adoc[]
+==== Request Fields
+include::{snippets}/addTodo/request-fields.adoc[]
+==== HTTP Response
+include::{snippets}/addTodo/http-response.adoc[]
+==== Response Fields
+include::{snippets}/addTodo/response-fields.adoc[]
