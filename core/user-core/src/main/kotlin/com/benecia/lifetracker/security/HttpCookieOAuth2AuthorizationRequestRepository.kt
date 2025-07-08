@@ -28,7 +28,7 @@ class HttpCookieOAuth2AuthorizationRequestRepository : AuthorizationRequestRepos
     override fun saveAuthorizationRequest(
         authorizationRequest: OAuth2AuthorizationRequest?,
         request: HttpServletRequest,
-        response: HttpServletResponse
+        response: HttpServletResponse,
     ) {
         if (authorizationRequest == null) {
             removeAuthorizationRequestCookies(request, response)
@@ -44,7 +44,7 @@ class HttpCookieOAuth2AuthorizationRequestRepository : AuthorizationRequestRepos
 
     override fun removeAuthorizationRequest(
         request: HttpServletRequest,
-        response: HttpServletResponse
+        response: HttpServletResponse,
     ): OAuth2AuthorizationRequest? {
         return loadAuthorizationRequest(request)
     }

@@ -5,7 +5,7 @@ import java.util.*
 
 @Component
 class UserReader(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ) {
     fun findById(id: UUID): User? {
         return userRepository.findById(id)

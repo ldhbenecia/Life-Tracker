@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component
 
 @Component
 data class TodoReader(
-    private val todoRepository: TodoRepository
+    private val todoRepository: TodoRepository,
 ) {
     fun readById(id: Long): TodoInfo {
         val todo = todoRepository.findById(id)
@@ -16,7 +16,7 @@ data class TodoReader(
             category = todo.category,
             scheduledDate = todo.scheduledDate,
             notificationTime = todo.notificationTime,
-            isDone = todo.isDone
+            isDone = todo.isDone,
         )
     }
 }

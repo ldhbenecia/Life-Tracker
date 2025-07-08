@@ -17,13 +17,13 @@ class OAuth2AuthenticationSuccessHandler(
     private val jwtUtil: JwtUtil,
     private val userService: UserService,
     private val redirectUrlService: RedirectUrlService,
-    private val httpCookieOAuth2AuthorizationRequestRepository: HttpCookieOAuth2AuthorizationRequestRepository
+    private val httpCookieOAuth2AuthorizationRequestRepository: HttpCookieOAuth2AuthorizationRequestRepository,
 ) : SimpleUrlAuthenticationSuccessHandler() {
 
     override fun onAuthenticationSuccess(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        authentication: Authentication
+        authentication: Authentication,
     ) {
         val oAuth2User = authentication.principal as OAuth2User
         val registrationId = getRegistrationId(request)
@@ -35,7 +35,6 @@ class OAuth2AuthenticationSuccessHandler(
 
             clearAuthenticationAttributes(request, response)
             redirectStrategy.sendRedirect(request, response, redirectUrl)
-
         } catch (e: Exception) {
             logger.error("OAuth2 인증 성공 처리 중 오류 발생", e)
             val errorUrl = redirectUrlService.getErrorRedirectUrl("authentication_failed")
@@ -50,7 +49,7 @@ class OAuth2AuthenticationSuccessHandler(
         return if (existingUser != null) {
             val updatedUser = existingUser.copy(
                 displayName = userInfo.name,
-                profileImageUrl = userInfo.profileImage
+                profileImageUrl = userInfo.profileImage,
             )
             userService.update(updatedUser)
         } else {
@@ -58,7 +57,7 @@ class OAuth2AuthenticationSuccessHandler(
                 provider = registrationId,
                 email = userInfo.email,
                 displayName = userInfo.name,
-                profileImageUrl = userInfo.profileImage
+                profileImageUrl = userInfo.profileImage,
             )
             userService.add(newUser)
         }
@@ -69,14 +68,14 @@ class OAuth2AuthenticationSuccessHandler(
             "google" -> UserInfo(
                 email = oAuth2User.getAttribute<String>("email") ?: "",
                 name = oAuth2User.getAttribute<String>("name") ?: "Unknown",
-                profileImage = oAuth2User.getAttribute<String>("picture")
+                profileImage = oAuth2User.getAttribute<String>("picture"),
             )
             "naver" -> {
                 val response = oAuth2User.getAttribute<Map<String, Any>>("response")
                 UserInfo(
                     email = response?.get("email") as? String ?: "",
                     name = response?.get("name") as? String ?: "Unknown",
-                    profileImage = response?.get("profile_image") as? String
+                    profileImage = response?.get("profile_image") as? String,
                 )
             }
             "kakao" -> {
@@ -85,7 +84,7 @@ class OAuth2AuthenticationSuccessHandler(
                 UserInfo(
                     email = kakaoAccount?.get("email") as? String ?: "",
                     name = profile?.get("nickname") as? String ?: "Unknown",
-                    profileImage = profile?.get("profile_image_url") as? String
+                    profileImage = profile?.get("profile_image_url") as? String,
                 )
             }
             else -> throw IllegalArgumentException("Unsupported provider: $registrationId")
@@ -104,6 +103,6 @@ class OAuth2AuthenticationSuccessHandler(
     data class UserInfo(
         val email: String,
         val name: String,
-        val profileImage: String?
+        val profileImage: String?,
     )
 }

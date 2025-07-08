@@ -10,7 +10,7 @@ import java.util.*
 
 @Repository
 class UserEntityRepository(
-    private val userJpaRepository: UserJpaRepository
+    private val userJpaRepository: UserJpaRepository,
 ) : UserRepository {
 
     override fun add(user: User): UUID {
@@ -30,7 +30,7 @@ class UserEntityRepository(
     }
 
     override fun findByProviderAndEmail(provider: String, email: String): User? {
-       return userJpaRepository.findByProviderAndEmail(provider, email)?.toDomain()
+        return userJpaRepository.findByProviderAndEmail(provider, email)?.toDomain()
     }
 
     override fun update(user: User): User {

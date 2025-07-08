@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Repository
 class TodoEntityRepository(
-    private val todoJpaRepository: TodoJpaRepository
+    private val todoJpaRepository: TodoJpaRepository,
 ) : TodoRepository {
 
     override fun add(todo: Todo): Long {

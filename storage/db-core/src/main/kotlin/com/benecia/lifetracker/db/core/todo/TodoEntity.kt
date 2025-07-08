@@ -2,9 +2,14 @@ package com.benecia.lifetracker.db.core.todo
 
 import com.benecia.lifetracker.db.core.BaseEntity
 import com.benecia.lifetracker.todocore.service.Todo
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.Table
 import java.time.LocalDateTime
-import java.util.*
+import java.util.UUID
 
 @Entity
 @Table(name = "todo")
@@ -40,7 +45,7 @@ class TodoEntity(
                 category = todo.category,
                 scheduledDate = todo.scheduledDate,
                 notificationTime = todo.notificationTime,
-                isDone = todo.isDone
+                isDone = todo.isDone,
             )
         }
     }
@@ -52,6 +57,6 @@ class TodoEntity(
         category = this.category,
         scheduledDate = this.scheduledDate,
         notificationTime = this.notificationTime,
-        isDone = this.isDone
+        isDone = this.isDone,
     )
 }

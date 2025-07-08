@@ -9,11 +9,11 @@ import java.util.*
 data class ModifyTodoRequest(
     val title: String? = null,
     val category: String? = null,
-    val scheduledDate: String? = null, // ISO 8601 (예: 2025-07-01T10:00:00)
-    val notificationTime: String? = null, // ISO 8601 (nullable)
+    val scheduledDate: String? = null,
+    val notificationTime: String? = null,
 
     @JsonProperty(value = "isDone")
-    val isDone: Boolean? = null
+    val isDone: Boolean? = null,
 ) {
     fun toCommand(userId: UUID): TodoModifyCommand {
         val formatter = DateTimeFormatter.ISO_DATE_TIME
@@ -23,7 +23,7 @@ data class ModifyTodoRequest(
             category = this.category,
             scheduledDate = this.scheduledDate?.let { LocalDateTime.parse(it, formatter) },
             notificationTime = this.notificationTime?.let { LocalDateTime.parse(it, formatter) },
-            isDone = this.isDone
+            isDone = this.isDone,
         )
     }
 }

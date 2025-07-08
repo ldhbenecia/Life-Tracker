@@ -9,5 +9,4 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 @EnableTransactionManagement
 @EntityScan(basePackages = ["com.benecia.lifetracker.db.core"])
 @EnableJpaRepositories(basePackages = ["com.benecia.lifetracker.db.core"])
-internal class CoreJpaConfig {
-}
+internal class CoreJpaConfig

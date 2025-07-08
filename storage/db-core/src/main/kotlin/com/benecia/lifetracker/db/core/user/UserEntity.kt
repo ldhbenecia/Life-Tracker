@@ -2,8 +2,12 @@ package com.benecia.lifetracker.db.core.user
 
 import com.benecia.lifetracker.db.core.BaseEntity
 import com.benecia.lifetracker.user.service.User
-import jakarta.persistence.*
-import java.util.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.Id
+import jakarta.persistence.Table
+import java.util.UUID
 
 @Entity
 @Table(name = "user")
@@ -33,6 +37,6 @@ class UserEntity(
         provider = this.provider,
         email = this.email,
         displayName = this.displayName,
-        profileImageUrl = this.profileImageUrl
+        profileImageUrl = this.profileImageUrl,
     )
 }

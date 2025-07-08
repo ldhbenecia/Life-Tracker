@@ -8,5 +8,5 @@ data class TodoInfo(
     val category: String,
     val scheduledDate: LocalDateTime,
     val notificationTime: LocalDateTime?,
-    val isDone: Boolean
+    val isDone: Boolean,
 )

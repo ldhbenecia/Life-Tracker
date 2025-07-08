@@ -13,7 +13,7 @@ import java.util.*
 @Component
 class JwtUtil(
     @Value("\${jwt.secret}") private val secret: String,
-    @Value("\${jwt.expiration}") private val expiration: Long
+    @Value("\${jwt.expiration}") private val expiration: Long,
 ) {
 
     private val key: Key by lazy {

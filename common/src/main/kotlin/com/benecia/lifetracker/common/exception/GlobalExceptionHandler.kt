@@ -17,7 +17,7 @@ class GlobalExceptionHandler {
         val errorResponse = ErrorResponse(
             status = 500,
             error = "INTERNAL_SERVER_ERROR",
-            message = "서버 내부에서 예상치 못한 오류가 발생했습니다."
+            message = "서버 내부에서 예상치 못한 오류가 발생했습니다.",
         )
         return ResponseEntity.internalServerError().body(errorResponse)
     }
@@ -28,7 +28,7 @@ class GlobalExceptionHandler {
         val errorResponse = ErrorResponse(
             status = errorCode.code,
             error = errorCode.name,
-            message = errorCode.message
+            message = errorCode.message,
         )
         log.warn("CustomException: code=${errorCode.code}, name=${errorCode.name}, message=${errorCode.message}")
         return ResponseEntity.status(errorCode.code).body(errorResponse)

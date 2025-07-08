@@ -7,14 +7,14 @@ data class ApiResponse<T>(
     val status: Int,
     val message: String,
     val data: T?,
-    val timestamp: LocalDateTime = LocalDateTime.now()
+    val timestamp: LocalDateTime = LocalDateTime.now(),
 ) {
     companion object {
         fun <T> success(data: T? = null): ApiResponse<T> {
             return ApiResponse(
                 status = HttpStatus.OK.value(),
                 message = "success",
-                data = data
+                data = data,
             )
         }
 
@@ -22,7 +22,7 @@ data class ApiResponse<T>(
             return ApiResponse(
                 status = HttpStatus.CREATED.value(),
                 message = "created",
-                data = data
+                data = data,
             )
         }
     }

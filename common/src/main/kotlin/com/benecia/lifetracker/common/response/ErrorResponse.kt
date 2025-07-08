@@ -6,5 +6,5 @@ data class ErrorResponse(
     val status: Int,
     val error: String,
     val message: Any,
-    val timestamp: LocalDateTime = LocalDateTime.now()
+    val timestamp: LocalDateTime = LocalDateTime.now(),
 )

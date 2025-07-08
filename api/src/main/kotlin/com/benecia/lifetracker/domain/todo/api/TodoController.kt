@@ -8,17 +8,23 @@ import com.benecia.lifetracker.domain.todo.dto.TodoResponse
 import com.benecia.lifetracker.todocore.service.TodoService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/v1/todos")
 class TodoController(
     private val todoService: TodoService,
-    private val currentUserProvider: CurrentUserProvider
+    private val currentUserProvider: CurrentUserProvider,
 ) {
     @GetMapping("/{id}")
     fun readTodo(
-        @PathVariable id: Long
+        @PathVariable id: Long,
     ): ResponseEntity<ApiResponse<TodoResponse>> {
         val todoInfo = todoService.readTodoById(id)
         return ResponseEntity.ok(ApiResponse.success(TodoResponse.from(todoInfo)))
@@ -26,7 +32,7 @@ class TodoController(
 
     @PostMapping
     fun addTodo(
-        @RequestBody request: NewTodoRequest
+        @RequestBody request: NewTodoRequest,
     ): ResponseEntity<ApiResponse<Long>> {
         val command = request.toCommand(currentUserProvider.getCurrentUserId())
         val todoId = todoService.addTodo(command)
@@ -36,10 +42,9 @@ class TodoController(
     @PutMapping("/{id}")
     fun modifyTodo(
         @PathVariable id: Long,
-        @RequestBody request: ModifyTodoRequest
+        @RequestBody request: ModifyTodoRequest,
     ): ResponseEntity<ApiResponse<Long>> {
         val command = request.toCommand(currentUserProvider.getCurrentUserId())
-        println("todoService = ${command}")
         todoService.modifyTodo(id, command)
         return ResponseEntity.ok(ApiResponse.success(id))
     }

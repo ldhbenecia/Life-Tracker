@@ -6,4 +6,4 @@ import java.util.UUID
 interface CurrentUserProvider {
     fun getCurrentUserId(): UUID
     fun getCurrentUser(): LoginUser
-} 
+}

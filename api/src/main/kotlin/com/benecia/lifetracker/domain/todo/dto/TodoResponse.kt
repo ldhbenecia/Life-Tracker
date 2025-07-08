@@ -9,7 +9,7 @@ data class TodoResponse(
     val category: String,
     val scheduledDate: String,
     val notificationTime: String?,
-    val isDone: Boolean
+    val isDone: Boolean,
 ) {
     companion object {
         private val formatter = DateTimeFormatter.ISO_DATE_TIME
@@ -19,7 +19,7 @@ data class TodoResponse(
             category = info.category,
             scheduledDate = info.scheduledDate.format(formatter),
             notificationTime = info.notificationTime?.format(formatter),
-            isDone = info.isDone
+            isDone = info.isDone,
         )
     }
-} 
+}

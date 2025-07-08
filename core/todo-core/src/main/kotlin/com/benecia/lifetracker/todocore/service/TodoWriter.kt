@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component
 
 @Component
 data class TodoWriter(
-    private val todoRepository: TodoRepository
+    private val todoRepository: TodoRepository,
 ) {
     fun add(command: TodoAddCommand): Long {
         val todo = Todo(
@@ -30,7 +30,7 @@ data class TodoWriter(
             category = command.category ?: existingTodo.category,
             scheduledDate = command.scheduledDate ?: existingTodo.scheduledDate,
             notificationTime = command.notificationTime ?: existingTodo.notificationTime,
-            isDone = command.isDone ?: existingTodo.isDone
+            isDone = command.isDone ?: existingTodo.isDone,
         )
 
         todoRepository.modify(id, modifiedTodo)

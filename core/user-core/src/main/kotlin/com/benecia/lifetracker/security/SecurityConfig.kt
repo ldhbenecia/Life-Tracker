@@ -19,8 +19,8 @@ class SecurityConfig(
     private val jwtAuthenticationFilter: JwtAuthenticationFilter,
     private val jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint,
     private val oAuth2AuthenticationSuccessHandler: OAuth2AuthenticationSuccessHandler,
-    private val oAuth2AuthenticationFailureHandler: OAuth2AuthenticationFailureHandler
-)  {
+    private val oAuth2AuthenticationFailureHandler: OAuth2AuthenticationFailureHandler,
+) {
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {

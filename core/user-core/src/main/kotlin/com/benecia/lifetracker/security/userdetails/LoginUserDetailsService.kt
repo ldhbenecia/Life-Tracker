@@ -8,7 +8,7 @@ import java.util.UUID
 
 @Service
 class LoginUserDetailsService(
-    private val userService: UserService
+    private val userService: UserService,
 ) : UserDetailsService {
 
     override fun loadUserByUsername(userId: String): UserDetails {

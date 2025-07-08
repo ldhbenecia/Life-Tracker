@@ -5,7 +5,7 @@ import java.util.*
 
 @Component
 data class UserWriter(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ) {
     fun add(user: User): UUID {
         return userRepository.add(user)

@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component
 @Component
 class OAuth2AuthenticationFailureHandler(
     private val redirectUrlService: RedirectUrlService,
-    private val httpCookieOAuth2AuthorizationRequestRepository: HttpCookieOAuth2AuthorizationRequestRepository
+    private val httpCookieOAuth2AuthorizationRequestRepository: HttpCookieOAuth2AuthorizationRequestRepository,
 ) : SimpleUrlAuthenticationFailureHandler() {
 
     override fun onAuthenticationFailure(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        exception: AuthenticationException
+        exception: AuthenticationException,
     ) {
         val errorUrl = redirectUrlService.getErrorRedirectUrl(exception.message ?: "authentication_failed")
 

@@ -12,9 +12,9 @@ class SpringSecurityCurrentUserProvider : CurrentUserProvider {
         val loginUser = authentication.principal as LoginUser
         return loginUser.id
     }
-    
+
     override fun getCurrentUser(): LoginUser {
         val authentication = SecurityContextHolder.getContext().authentication
         return authentication.principal as LoginUser
     }
-} 
+}

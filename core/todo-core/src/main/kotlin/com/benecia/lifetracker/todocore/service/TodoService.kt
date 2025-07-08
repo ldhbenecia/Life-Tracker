@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 @Service
 class TodoService(
     private val todoWriter: TodoWriter,
-    private val todoReader: TodoReader
+    private val todoReader: TodoReader,
 ) {
     fun readTodoById(id: Long): TodoInfo {
         return todoReader.readById(id)
