@@ -39,6 +39,7 @@ subprojects {
 		implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 		implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 		testImplementation("org.springframework.boot:spring-boot-starter-test")
+        testImplementation("com.ninja-squad:springmockk:${property("springMockkVersion")}")
 		annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 		kapt("org.springframework.boot:spring-boot-configuration-processor")
 	}
@@ -60,4 +61,21 @@ subprojects {
 	tasks.withType<Test> {
 		useJUnitPlatform()
 	}
+
+    tasks.test {
+        useJUnitPlatform {
+            excludeTags("develop", "restdocs")
+        }
+    }
+
+    tasks.register<Test>("restDocsTest") {
+        group = "verification"
+        useJUnitPlatform {
+            includeTags("restdocs")
+        }
+    }
+
+    tasks.getByName("asciidoctor") {
+        dependsOn("restDocsTest")
+    }
 }
