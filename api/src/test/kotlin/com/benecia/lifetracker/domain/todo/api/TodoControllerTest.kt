@@ -1,6 +1,6 @@
 package com.benecia.lifetracker.domain.todo.api
 
-import com.benecia.lifetracker.domain.common.SpringSecurityCurrentUserProvider
+import com.benecia.lifetracker.domain.common.CurrentUserProvider
 import com.benecia.lifetracker.test.api.RestDocsTest
 import com.benecia.lifetracker.test.api.RestDocsUtils.requestPreprocessor
 import com.benecia.lifetracker.test.api.RestDocsUtils.responsePreprocessor
@@ -26,7 +26,7 @@ import java.util.UUID
 
 class TodoControllerTest : RestDocsTest() {
     private lateinit var todoService: TodoService
-    private lateinit var currentUserProvider: SpringSecurityCurrentUserProvider
+    private lateinit var currentUserProvider: CurrentUserProvider
     private lateinit var controller: TodoController
 
     @BeforeEach
