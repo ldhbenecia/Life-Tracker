@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository
 interface TodoRepository {
     fun findById(id: Long): Todo
     fun add(todo: Todo): Long
-    fun modify(id: Long, todo: Todo): Todo
+    fun modify(id: Long, todo: Todo): Long
 }

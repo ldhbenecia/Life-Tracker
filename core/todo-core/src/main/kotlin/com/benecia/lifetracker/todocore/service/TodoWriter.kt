@@ -1,16 +1,18 @@
 package com.benecia.lifetracker.todocore.service
 
-import com.benecia.lifetracker.todocore.model.command.TodoAddCommand
-import com.benecia.lifetracker.todocore.model.command.TodoModifyCommand
+import com.benecia.lifetracker.todocore.model.command.ModifyTodo
+import com.benecia.lifetracker.todocore.model.command.NewTodo
 import org.springframework.stereotype.Component
+import java.util.UUID
 
 @Component
 data class TodoWriter(
+    private val todoReader: TodoReader,
     private val todoRepository: TodoRepository,
 ) {
-    fun add(command: TodoAddCommand): Long {
+    fun add(userId: UUID, command: NewTodo): Long {
         val todo = Todo(
-            userId = command.userId,
+            userId = userId,
             title = command.title,
             category = command.category,
             scheduledDate = command.scheduledDate,
@@ -21,11 +23,11 @@ data class TodoWriter(
         return todoRepository.add(todo)
     }
 
-    fun modify(id: Long, command: TodoModifyCommand) {
-        val existingTodo = todoRepository.findById(id)
+    fun modify(id: Long, userId: UUID, command: ModifyTodo): Long {
+        val existingTodo = todoReader.findById(id)
 
         val modifiedTodo = Todo(
-            userId = existingTodo.userId,
+            userId = userId,
             title = command.title ?: existingTodo.title,
             category = command.category ?: existingTodo.category,
             scheduledDate = command.scheduledDate ?: existingTodo.scheduledDate,
@@ -33,6 +35,6 @@ data class TodoWriter(
             isDone = command.isDone ?: existingTodo.isDone,
         )
 
-        todoRepository.modify(id, modifiedTodo)
+        return todoRepository.modify(id, modifiedTodo)
     }
 }

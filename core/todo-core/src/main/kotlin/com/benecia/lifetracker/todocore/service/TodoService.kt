@@ -1,24 +1,25 @@
 package com.benecia.lifetracker.todocore.service
 
-import com.benecia.lifetracker.todocore.model.command.TodoAddCommand
-import com.benecia.lifetracker.todocore.model.command.TodoModifyCommand
+import com.benecia.lifetracker.todocore.model.command.ModifyTodo
+import com.benecia.lifetracker.todocore.model.command.NewTodo
 import com.benecia.lifetracker.todocore.model.info.TodoInfo
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class TodoService(
     private val todoWriter: TodoWriter,
     private val todoReader: TodoReader,
 ) {
-    fun readTodoById(id: Long): TodoInfo {
-        return todoReader.readById(id)
+    fun findTodoById(id: Long): TodoInfo {
+        return todoReader.findById(id)
     }
 
-    fun addTodo(command: TodoAddCommand): Long {
-        return todoWriter.add(command)
+    fun addTodo(userId: UUID, command: NewTodo): Long {
+        return todoWriter.add(userId, command)
     }
 
-    fun modifyTodo(id: Long, command: TodoModifyCommand) {
-        return todoWriter.modify(id, command)
+    fun modifyTodo(id: Long, userId: UUID, command: ModifyTodo): Long {
+        return todoWriter.modify(id, userId, command)
     }
 }

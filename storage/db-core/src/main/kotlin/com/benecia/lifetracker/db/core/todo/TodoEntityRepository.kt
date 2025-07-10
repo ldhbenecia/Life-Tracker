@@ -13,19 +13,19 @@ class TodoEntityRepository(
     private val todoJpaRepository: TodoJpaRepository,
 ) : TodoRepository {
 
-    override fun add(todo: Todo): Long {
-        val entity = TodoEntity.from(todo)
-        return todoJpaRepository.save(entity).id!!
-    }
-
     override fun findById(id: Long): Todo {
         val entity = todoJpaRepository.findByIdOrNull(id)
             ?: throw CustomException(TodoErrorCode.TODO_NOT_FOUND)
         return entity.toDomain()
     }
 
+    override fun add(todo: Todo): Long {
+        val entity = TodoEntity.from(todo)
+        return todoJpaRepository.save(entity).id!!
+    }
+
     @Transactional
-    override fun modify(id: Long, todo: Todo): Todo {
+    override fun modify(id: Long, todo: Todo): Long {
         val entity = todoJpaRepository.findByIdOrNull(id)
             ?: throw CustomException(TodoErrorCode.TODO_NOT_FOUND)
 
@@ -35,7 +35,6 @@ class TodoEntityRepository(
         entity.notificationTime = todo.notificationTime
         entity.isDone = todo.isDone
 
-        val savedEntity = todoJpaRepository.save(entity)
-        return savedEntity.toDomain()
+        return todoJpaRepository.save(entity).id!!
     }
 }

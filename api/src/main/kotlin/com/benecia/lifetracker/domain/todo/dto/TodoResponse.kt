@@ -16,7 +16,7 @@ data class TodoResponse(
 ) {
     companion object {
         private val formatter = DateTimeFormatter.ISO_DATE_TIME
-        fun from(info: TodoInfo): TodoResponse = TodoResponse(
+        fun of(info: TodoInfo): TodoResponse = TodoResponse(
             id = info.id,
             title = info.title,
             category = info.category,

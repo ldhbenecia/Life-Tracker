@@ -1,13 +1,14 @@
 package com.benecia.lifetracker.domain.todo.api
 
 import com.benecia.lifetracker.common.response.ApiResponse
-import com.benecia.lifetracker.domain.common.CurrentUserProvider
 import com.benecia.lifetracker.domain.todo.dto.ModifyTodoRequest
+import com.benecia.lifetracker.domain.todo.dto.ModifyTodoResponse
 import com.benecia.lifetracker.domain.todo.dto.NewTodoRequest
+import com.benecia.lifetracker.domain.todo.dto.NewTodoResponse
 import com.benecia.lifetracker.domain.todo.dto.TodoResponse
+import com.benecia.lifetracker.security.userdetails.LoginUser
 import com.benecia.lifetracker.todocore.service.TodoService
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -20,32 +21,32 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/v1/todos")
 class TodoController(
     private val todoService: TodoService,
-    private val currentUserProvider: CurrentUserProvider,
 ) {
     @GetMapping("/{id}")
-    fun readTodo(
+    fun findTodo(
+        @AuthenticationPrincipal loginUser: LoginUser,
         @PathVariable id: Long,
-    ): ResponseEntity<ApiResponse<TodoResponse>> {
-        val todoInfo = todoService.readTodoById(id)
-        return ResponseEntity.ok(ApiResponse.success(TodoResponse.from(todoInfo)))
+    ): ApiResponse<TodoResponse> {
+        val todoInfo = todoService.findTodoById(id)
+        return ApiResponse.success(TodoResponse.of(todoInfo))
     }
 
     @PostMapping
     fun addTodo(
+        @AuthenticationPrincipal loginUser: LoginUser,
         @RequestBody request: NewTodoRequest,
-    ): ResponseEntity<ApiResponse<Long>> {
-        val command = request.toCommand(currentUserProvider.getCurrentUserId())
-        val todoId = todoService.addTodo(command)
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(todoId))
+    ): ApiResponse<NewTodoResponse> {
+        val todoId = todoService.addTodo(loginUser.id, request.toNewTodo())
+        return ApiResponse.created(NewTodoResponse(todoId))
     }
 
     @PutMapping("/{id}")
     fun modifyTodo(
+        @AuthenticationPrincipal loginUser: LoginUser,
         @PathVariable id: Long,
         @RequestBody request: ModifyTodoRequest,
-    ): ResponseEntity<ApiResponse<Long>> {
-        val command = request.toCommand(currentUserProvider.getCurrentUserId())
-        todoService.modifyTodo(id, command)
-        return ResponseEntity.ok(ApiResponse.success(id))
+    ): ApiResponse<ModifyTodoResponse> {
+        val todoId = todoService.modifyTodo(id, loginUser.id, request.toModifyTodo())
+        return ApiResponse.success(ModifyTodoResponse(todoId))
     }
 }

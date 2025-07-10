@@ -1,10 +1,8 @@
 package com.benecia.lifetracker.todocore.model.command
 
 import java.time.LocalDateTime
-import java.util.UUID
 
-data class TodoModifyCommand(
-    val userId: UUID,
+data class ModifyTodo(
     val title: String? = null,
     val category: String? = null,
     val scheduledDate: LocalDateTime? = null,
