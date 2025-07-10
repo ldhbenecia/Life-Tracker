@@ -7,7 +7,7 @@ import java.util.UUID
 
 class LoginUser(
     val id: UUID,
-    private val email: String,
+    val email: String,
 ) : UserDetails {
 
     override fun getUsername(): String = id.toString()
