@@ -27,7 +27,7 @@ class TodoController(
         @AuthenticationPrincipal loginUser: LoginUser,
         @PathVariable id: Long,
     ): ApiResponse<TodoResponse> {
-        val todoInfo = todoService.findTodoById(id)
+        val todoInfo = todoService.findTodoById(loginUser.id, id)
         return ApiResponse.success(TodoResponse.of(todoInfo))
     }
 
@@ -46,7 +46,7 @@ class TodoController(
         @PathVariable id: Long,
         @RequestBody request: ModifyTodoRequest,
     ): ApiResponse<ModifyTodoResponse> {
-        val todoId = todoService.modifyTodo(id, loginUser.id, request.toModifyTodo())
+        val todoId = todoService.modifyTodo(loginUser.id, id, request.toModifyTodo())
         return ApiResponse.success(ModifyTodoResponse(todoId))
     }
 }

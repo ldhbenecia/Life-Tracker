@@ -23,9 +23,10 @@ class TodoEntity(
     val userId: UUID,
 
     @Column(nullable = false)
-    var title: String,
+    var categoryId: Long,
 
-    var category: String,
+    @Column(nullable = false)
+    var title: String,
 
     @Column(nullable = false)
     var scheduledDate: LocalDateTime,
@@ -42,7 +43,7 @@ class TodoEntity(
             return TodoEntity(
                 userId = todo.userId,
                 title = todo.title,
-                category = todo.category,
+                categoryId = todo.categoryId,
                 scheduledDate = todo.scheduledDate,
                 notificationTime = todo.notificationTime,
                 isDone = todo.isDone,
@@ -54,7 +55,7 @@ class TodoEntity(
         id = this.id,
         userId = this.userId,
         title = this.title,
-        category = this.category,
+        categoryId = this.categoryId,
         scheduledDate = this.scheduledDate,
         notificationTime = this.notificationTime,
         isDone = this.isDone,
