@@ -1,5 +1,6 @@
 package com.benecia.lifetracker.test.api
 
+import com.benecia.lifetracker.common.response.ApiResponseStatusAdvice
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -41,8 +42,10 @@ abstract class RestDocsTest {
         val converter = MappingJackson2HttpMessageConverter(objectMapper())
 
         return MockMvcBuilders.standaloneSetup(controller)
+            .setControllerAdvice(ApiResponseStatusAdvice())
             .apply<StandaloneMockMvcBuilder>(MockMvcRestDocumentation.documentationConfiguration(restDocumentation))
             .setMessageConverters(converter)
+            .setCustomArgumentResolvers(LoginUserArgumentResolver())
             .build()
     }
 
