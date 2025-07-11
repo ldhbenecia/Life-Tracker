@@ -8,13 +8,16 @@ import java.util.UUID
 @Component
 data class TodoWriter(
     private val todoReader: TodoReader,
+    private val categoryReader: CategoryReader,
     private val todoRepository: TodoRepository,
 ) {
     fun add(userId: UUID, command: NewTodo): Long {
+        val category = categoryReader.findByUserIdAndName(userId, command.category)
+
         val todo = Todo(
             userId = userId,
             title = command.title,
-            category = command.category,
+            categoryId = category.id,
             scheduledDate = command.scheduledDate,
             notificationTime = command.notificationTime,
             isDone = false,
@@ -23,13 +26,17 @@ data class TodoWriter(
         return todoRepository.add(todo)
     }
 
-    fun modify(id: Long, userId: UUID, command: ModifyTodo): Long {
-        val existingTodo = todoReader.findById(id)
+    fun modify(userId: UUID, id: Long, command: ModifyTodo): Long {
+        val existingTodo = todoReader.findById(userId, id)
+
+        val newCategoryId = command.category?.let { categoryName ->
+            categoryReader.findByUserIdAndName(userId, categoryName)?.id
+        } ?: existingTodo.category.id
 
         val modifiedTodo = Todo(
             userId = userId,
             title = command.title ?: existingTodo.title,
-            category = command.category ?: existingTodo.category,
+            categoryId = newCategoryId,
             scheduledDate = command.scheduledDate ?: existingTodo.scheduledDate,
             notificationTime = command.notificationTime ?: existingTodo.notificationTime,
             isDone = command.isDone ?: existingTodo.isDone,
