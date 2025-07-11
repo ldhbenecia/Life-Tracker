@@ -22,15 +22,15 @@ class GlobalExceptionHandler {
         return ResponseEntity.internalServerError().body(errorResponse)
     }
 
-    @ExceptionHandler(CustomException::class)
-    fun handleCustomException(e: CustomException): ResponseEntity<ErrorResponse> {
+    @ExceptionHandler(CoreException::class)
+    fun handleCustomException(e: CoreException): ResponseEntity<ErrorResponse> {
         val errorCode = e.errorCode
         val errorResponse = ErrorResponse(
             status = errorCode.code,
             error = errorCode.name,
             message = errorCode.message,
         )
-        log.warn("CustomException: code=${errorCode.code}, name=${errorCode.name}, message=${errorCode.message}")
+        log.warn("CoreException: code=${errorCode.code}, name=${errorCode.name}, message=${errorCode.message}")
         return ResponseEntity.status(errorCode.code).body(errorResponse)
     }
 }

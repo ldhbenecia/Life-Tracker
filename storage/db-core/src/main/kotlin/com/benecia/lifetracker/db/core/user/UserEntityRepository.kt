@@ -1,12 +1,12 @@
 package com.benecia.lifetracker.db.core.user
 
-import com.benecia.lifetracker.common.exception.CustomException
+import com.benecia.lifetracker.common.exception.CoreException
 import com.benecia.lifetracker.user.exception.UserErrorCode
 import com.benecia.lifetracker.user.service.User
 import com.benecia.lifetracker.user.service.UserRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
-import java.util.*
+import java.util.UUID
 
 @Repository
 class UserEntityRepository(
@@ -25,7 +25,7 @@ class UserEntityRepository(
 
     override fun findById(id: UUID): User? {
         val entity = userJpaRepository.findByIdOrNull(id)
-            ?: throw CustomException(UserErrorCode.USER_NOT_FOUND)
+            ?: throw CoreException(UserErrorCode.USER_NOT_FOUND)
         return entity.toDomain()
     }
 
@@ -34,8 +34,8 @@ class UserEntityRepository(
     }
 
     override fun update(user: User): User {
-        val entity = userJpaRepository.findById(user.id ?: throw CustomException(UserErrorCode.USER_NOT_FOUND))
-            .orElseThrow { CustomException(UserErrorCode.USER_NOT_FOUND) }
+        val entity = userJpaRepository.findById(user.id ?: throw CoreException(UserErrorCode.USER_NOT_FOUND))
+            .orElseThrow { CoreException(UserErrorCode.USER_NOT_FOUND) }
 
         entity.displayName = user.displayName
         entity.profileImageUrl = user.profileImageUrl
