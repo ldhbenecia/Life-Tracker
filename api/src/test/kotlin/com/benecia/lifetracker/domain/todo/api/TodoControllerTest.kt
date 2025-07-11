@@ -1,10 +1,10 @@
 package com.benecia.lifetracker.domain.todo.api
 
-import com.benecia.lifetracker.domain.common.CurrentUserProvider
+import com.benecia.lifetracker.security.userdetails.LoginUser
 import com.benecia.lifetracker.test.api.RestDocsTest
 import com.benecia.lifetracker.test.api.RestDocsUtils.requestPreprocessor
 import com.benecia.lifetracker.test.api.RestDocsUtils.responsePreprocessor
-import com.benecia.lifetracker.todocore.model.command.TodoAddCommand
+import com.benecia.lifetracker.todocore.model.command.NewTodo
 import com.benecia.lifetracker.todocore.model.info.TodoInfo
 import com.benecia.lifetracker.todocore.service.TodoService
 import io.mockk.every
@@ -21,25 +21,35 @@ import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.restdocs.request.RequestDocumentation
 import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.context.SecurityContextHolder
 import java.time.LocalDateTime
 import java.util.UUID
 
 class TodoControllerTest : RestDocsTest() {
     private lateinit var todoService: TodoService
-    private lateinit var currentUserProvider: CurrentUserProvider
     private lateinit var controller: TodoController
 
     @BeforeEach
     fun setUp() {
         todoService = mockk()
-        currentUserProvider = mockk()
-        controller = TodoController(todoService, currentUserProvider)
+        controller = TodoController(todoService)
         mockMvc = mockController(controller)
     }
 
+    private fun setupAuthentication(loginUser: LoginUser) {
+        val auth = UsernamePasswordAuthenticationToken(loginUser, null, loginUser.authorities)
+        SecurityContextHolder.getContext().authentication = auth
+    }
+
     @Test
-    fun readTodo() {
+    fun findTodo() {
         val userId = UUID.randomUUID()
+        val email = "test@test.com"
+        val loginUser = LoginUser(userId, email)
+
+        setupAuthentication(loginUser)
+
         val todoId = 1L
 
         val expected = TodoInfo(
@@ -51,8 +61,7 @@ class TodoControllerTest : RestDocsTest() {
             isDone = false,
         )
 
-        every { currentUserProvider.getCurrentUserId() } returns userId
-        every { todoService.readTodoById(todoId) } returns expected
+        every { todoService.findTodoById(todoId) } returns expected
 
         given()
             .contentType(ContentType.JSON)
@@ -61,7 +70,7 @@ class TodoControllerTest : RestDocsTest() {
             .status(HttpStatus.OK)
             .apply(
                 document(
-                    "readTodo",
+                    "findTodo",
                     requestPreprocessor(),
                     responsePreprocessor(),
                     RequestDocumentation.pathParameters(
@@ -76,7 +85,7 @@ class TodoControllerTest : RestDocsTest() {
                         fieldWithPath("data.scheduledDate").type(JsonFieldType.STRING).description("예약 날짜 및 시간 (ISO-8601)"),
                         fieldWithPath("data.notificationTime").type(JsonFieldType.STRING).description("알림 시간 (ISO-8601)"),
                         fieldWithPath("data.isDone").type(JsonFieldType.BOOLEAN).description("완료 여부"),
-                        fieldWithPath("timestamp").type(JsonFieldType.STRING).description("응답 생성 시간")
+                        fieldWithPath("timestamp").type(JsonFieldType.STRING).description("응답 생성 시간"),
                     ),
                 ),
             )
@@ -84,11 +93,14 @@ class TodoControllerTest : RestDocsTest() {
 
     @Test
     fun addTodo() {
-        val commandSlot = slot<TodoAddCommand>()
+        val commandSlot = slot<NewTodo>()
         val userId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000")
+        val email = "test@test.com"
+        val loginUser = LoginUser(userId, email)
 
-        every { currentUserProvider.getCurrentUserId() } returns userId
-        every { todoService.addTodo(capture(commandSlot)) } returns 1L
+        setupAuthentication(loginUser)
+
+        every { todoService.addTodo(userId, capture(commandSlot)) } returns 1L
 
         val requestBody = mapOf(
             "title" to "서버 개발",
@@ -118,8 +130,8 @@ class TodoControllerTest : RestDocsTest() {
                     responseFields(
                         fieldWithPath("status").type(JsonFieldType.NUMBER).description("HTTP 상태 코드"),
                         fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
-                        fieldWithPath("data").type(JsonFieldType.NUMBER).description("생성된 할 일 ID"),
-                        fieldWithPath("timestamp").type(JsonFieldType.STRING).description("응답 생성 시간")
+                        fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("생성된 할 일 ID"),
+                        fieldWithPath("timestamp").type(JsonFieldType.STRING).description("응답 생성 시간"),
                     ),
                 ),
             )
