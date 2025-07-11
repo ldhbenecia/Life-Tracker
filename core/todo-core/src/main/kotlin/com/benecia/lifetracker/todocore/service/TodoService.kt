@@ -11,15 +11,15 @@ class TodoService(
     private val todoWriter: TodoWriter,
     private val todoReader: TodoReader,
 ) {
-    fun findTodoById(id: Long): TodoInfo {
-        return todoReader.findById(id)
+    fun findTodoById(userId: UUID, id: Long): TodoInfo {
+        return todoReader.findById(userId, id)
     }
 
     fun addTodo(userId: UUID, command: NewTodo): Long {
         return todoWriter.add(userId, command)
     }
 
-    fun modifyTodo(id: Long, userId: UUID, command: ModifyTodo): Long {
-        return todoWriter.modify(id, userId, command)
+    fun modifyTodo(userId: UUID, id: Long, command: ModifyTodo): Long {
+        return todoWriter.modify(userId, id, command)
     }
 }
