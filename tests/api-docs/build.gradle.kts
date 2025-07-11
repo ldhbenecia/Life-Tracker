@@ -4,4 +4,8 @@ dependencies {
     api("org.springframework.restdocs:spring-restdocs-mockmvc")
     api("org.springframework.restdocs:spring-restdocs-restassured")
     api("io.rest-assured:spring-mock-mvc")
+
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation(project(":core:user-core"))
+    implementation(project(":common"))
 }
