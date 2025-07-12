@@ -5,6 +5,7 @@ import com.benecia.lifetracker.test.api.RestDocsTest
 import com.benecia.lifetracker.test.api.RestDocsUtils.requestPreprocessor
 import com.benecia.lifetracker.test.api.RestDocsUtils.responsePreprocessor
 import com.benecia.lifetracker.todocore.model.command.NewTodo
+import com.benecia.lifetracker.todocore.model.info.CategoryInfo
 import com.benecia.lifetracker.todocore.model.info.TodoInfo
 import com.benecia.lifetracker.todocore.service.TodoService
 import io.mockk.every
@@ -52,16 +53,23 @@ class TodoControllerTest : RestDocsTest() {
 
         val todoId = 1L
 
+        val categoryInfo = CategoryInfo(
+            id = 1L,
+            name = "개발",
+            icon = "icon-dev",
+            color = "#FF0000",
+        )
+
         val expected = TodoInfo(
             id = todoId,
             title = "서버 개발",
-            category = "개발",
+            category = categoryInfo,
             scheduledDate = LocalDateTime.of(2025, 7, 8, 20, 0),
             notificationTime = LocalDateTime.of(2025, 7, 8, 18, 0),
             isDone = false,
         )
 
-        every { todoService.findTodoById(todoId) } returns expected
+        every { todoService.findTodoById(userId, todoId) } returns expected
 
         given()
             .contentType(ContentType.JSON)
@@ -81,7 +89,10 @@ class TodoControllerTest : RestDocsTest() {
                         fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
                         fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("할 일 ID"),
                         fieldWithPath("data.title").type(JsonFieldType.STRING).description("할 일 제목"),
-                        fieldWithPath("data.category").type(JsonFieldType.STRING).description("할 일 분류"),
+                        fieldWithPath("data.category.id").type(JsonFieldType.NUMBER).description("카테고리 ID"),
+                        fieldWithPath("data.category.name").type(JsonFieldType.STRING).description("카테고리 이름"),
+                        fieldWithPath("data.category.icon").type(JsonFieldType.STRING).description("카테고리 아이콘"),
+                        fieldWithPath("data.category.color").type(JsonFieldType.STRING).description("카테고리 색상"),
                         fieldWithPath("data.scheduledDate").type(JsonFieldType.STRING).description("예약 날짜 및 시간 (ISO-8601)"),
                         fieldWithPath("data.notificationTime").type(JsonFieldType.STRING).description("알림 시간 (ISO-8601)"),
                         fieldWithPath("data.isDone").type(JsonFieldType.BOOLEAN).description("완료 여부"),
